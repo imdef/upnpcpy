@@ -1,0 +1,114 @@
+ffmpeg -f gdigrab -framerate 30 -i desktop -vcodec libx264 -preset fast -threads 0 -vf format=yuv420p -f matroska a.mkv
+
+Get-childitem \\.\pipe\
+
+$npipeserver = New-Object System.IO.Pipes.NamedPipeServerStream('pipe1', [System.IO.Pipes.PipeDirection]::InOut)
+$npipeserver.WaitForConnection()
+"Connection"
+$pipeReader = New-Object System.IO.StreamReader($npipeserver)
+
+$line = $pipeReader.ReadLine()
+"This line is read: $line"
+
+$npipeserver.Dispose()
+
+\\.\PIPENAME NamedPipeClientStream / NamedPipeServerStream
+
+
+
+===================== CAN I JUST USE A FUCKIN' File Descriptor??
+
+type .\.bash_history > 40
+type 40
+
+NOPE
+
+https://jakut.is/2016/03/26/stdin-rtmpdump-streaming-to-upnp-dlna/
+
+============================ UPnP =================================================
+
+b'HTTP/1.1 200 OK\r\nCACHE-CONTROL: max-age=1800\r\nDATE: Sun, 09 Jan 2022 14:36:48 GMT\r\nEXT:\r\nLOCATION: http://192.168.0.141:41954/description/fetch\r\nServer: Windows/6.1.7601/Service Pack 1, UPnP/1.0, TVersity Screen Server/1.2\r\nST: upnp:rootdevice\r\nUSN: uuid:6be2d41e-4acf-da4a-ae32-f58294f61f38::upnp:rootdevice\r\n\r\n'
+
+root SCPD file
+http://192.168.0.141:41954/description/fetch
+
+POST Browse call list directories ========================================================================
+
+POST /upnp/control/content_directory HTTP/1.1
+HOST: 192.168.0.141:41954
+CONTENT-LENGTH: 440
+Accept-Ranges: bytes
+CONTENT-TYPE: text/xml; charset="utf-8"
+SOAPACTION: "urn:schemas-upnp-org:service:ContentDirectory:1#Browse"
+USER-AGENT: Linux/5.4.0-91-generic, UPnP/1.0, Portable SDK for UPnP devices/1.8.4
+
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+<s:Body><u:Browse xmlns:u="urn:schemas-upnp-org:service:ContentDirectory:1">
+<ObjectID>0</ObjectID>
+<BrowseFlag>BrowseDirectChildren</BrowseFlag>
+<Filter>*</Filter>
+<StartingIndex>0</StartingIndex>
+<RequestedCount>5000</RequestedCount>
+<SortCriteria></SortCriteria>
+</u:Browse>
+</s:Body>
+</s:Envelope>
+
+HTTP/1.1 200 OK
+Content-Length: 1638
+CONTENT-TYPE: text/xml; charset="utf-8"
+DATE: Sun, 09 Jan 2022 14:58:48 GMT
+EXT:
+Server: Windows/6.1.7601/Service Pack 1, UPnP/1.0, TVersity Screen Server/1.2
+
+<?xml version="1.0" encoding="utf-8"?>
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"><s:Body>
+<u:BrowseResponse xmlns:u="urn:schemas-upnp-org:service:ContentDirectory:1">
+<Result>&lt;DIDL-Lite xmlns="urn:schemas-upnp-org:metadata-1-0/DIDL-Lite/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:upnp="urn:schemas-upnp-org:metadata-1-0/upnp/"&gt;&lt;container searchable="true" id="300/437" childCount="1" parentID="0" restricted="true"&gt;&lt;dc:title&gt;Audio&lt;/dc:title&gt;&lt;upnp:class&gt;object.container&lt;/upnp:class&gt;&lt;upnp:icon&gt;http://192.168.0.141:41954/images/generic.png&lt;/upnp:icon&gt;&lt;res protocolInfo="http-get:*:image/jpeg:DLNA.ORG_PN=JPEG_TN;DLNA.ORG_OP=01;DLNA.ORG_FLAGS=01500000000000000000000000000000"&gt;http://192.168.0.141:41954/images/generic.png&lt;/res&gt;&lt;upnp:writeStatus&gt;UNKNOWN&lt;/upnp:writeStatus&gt;&lt;/container&gt;&lt;container searchable="true" id="300/443" childCount="1" parentID="0" restricted="true"&gt;&lt;dc:title&gt;Video&lt;/dc:title&gt;&lt;upnp:class&gt;object.container&lt;/upnp:class&gt;&lt;upnp:icon&gt;http://192.168.0.141:41954/images/generic.png&lt;/upnp:icon&gt;&lt;res protocolInfo="http-get:*:image/jpeg:DLNA.ORG_PN=JPEG_TN;DLNA.ORG_OP=01;DLNA.ORG_FLAGS=01500000000000000000000000000000"&gt;http://192.168.0.141:41954/images/generic.png&lt;/res&gt;&lt;upnp:writeStatus&gt;UNKNOWN&lt;/upnp:writeStatus&gt;&lt;/container&gt;&lt;/DIDL-Lite&gt;</Result>
+<NumberReturned>2</NumberReturned>
+<TotalMatches>2</TotalMatches>
+<UpdateID>1</UpdateID>
+</u:BrowseResponse>
+</s:Body> </s:Envelope>
+
+POST Specific Object ID ============================
+
+POST /upnp/control/content_directory HTTP/1.1
+HOST: 192.168.0.141:41954
+CONTENT-LENGTH: 446
+Accept-Ranges: bytes
+CONTENT-TYPE: text/xml; charset="utf-8"
+SOAPACTION: "urn:schemas-upnp-org:service:ContentDirectory:1#Browse"
+USER-AGENT: Linux/5.4.0-91-generic, UPnP/1.0, Portable SDK for UPnP devices/1.8.4
+
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+<s:Body><u:Browse xmlns:u="urn:schemas-upnp-org:service:ContentDirectory:1">
+<ObjectID>300/443</ObjectID>
+<BrowseFlag>BrowseDirectChildren</BrowseFlag>
+<Filter>*</Filter>
+<StartingIndex>0</StartingIndex>
+<RequestedCount>5000</RequestedCount>
+<SortCriteria></SortCriteria>
+</u:Browse>
+</s:Body>
+</s:Envelope>
+
+HTTP/1.1 200 OK
+Content-Length: 1434
+CONTENT-TYPE: text/xml; charset="utf-8"
+DATE: Sun, 09 Jan 2022 15:05:50 GMT
+EXT:
+Server: Windows/6.1.7601/Service Pack 1, UPnP/1.0, TVersity Screen Server/1.2
+
+<?xml version="1.0" encoding="utf-8"?>
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"><s:Body>
+<u:BrowseResponse xmlns:u="urn:schemas-upnp-org:service:ContentDirectory:1">
+<Result>&lt;DIDL-Lite xmlns="urn:schemas-upnp-org:metadata-1-0/DIDL-Lite/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:upnp="urn:schemas-upnp-org:metadata-1-0/upnp/"&gt;&lt;item restricted="true" id="300/443/442" parentID="300/443"&gt;&lt;dc:title&gt;Mirror Computer Screen&lt;/dc:title&gt;&lt;upnp:class&gt;object.item.videoItem.videoBroadcast&lt;/upnp:class&gt;&lt;res bitsPerSample="16" protocolInfo="http-get:*:video/mpeg:DLNA.ORG_PN=MPEG_PS_NTSC;DLNA.ORG_OP=01;DLNA.ORG_CI=1;DLNA.ORG_FLAGS=01500000000000000000000000000000" resolution="972x546" nrAudioChannels="2" bitrate="1024000" sampleFrequency="44100"&gt;http://192.168.0.141:41954/getres/video/mpeg16;res=972x546;fps=30_1;vb=82944000;id=64ffc0d9f6/442/_f_.mpg&lt;/res&gt;&lt;upnp:icon&gt;http://192.168.0.141:41954/images/videosmall.png&lt;/upnp:icon&gt;&lt;res protocolInfo="http-get:*:image/jpeg:DLNA.ORG_PN=JPEG_TN;DLNA.ORG_OP=01;DLNA.ORG_FLAGS=01500000000000000000000000000000"&gt;http://192.168.0.141:41954/images/videosmall.png&lt;/res&gt;&lt;/item&gt;&lt;/DIDL-Lite&gt;</Result>
+<NumberReturned>1</NumberReturned>
+<TotalMatches>1</TotalMatches>
+<UpdateID>1</UpdateID>
+</u:BrowseResponse>
+</s:Body> </s:Envelope>
+
+http://192.168.0.141:41954/getres/video/mpeg16;res=972x546;fps=30_1;vb=82944000;id=64ffc0d9f6/442/_f_.mpg
+

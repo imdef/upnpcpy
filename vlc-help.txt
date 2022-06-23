@@ -1,0 +1,78 @@
+﻿
+ RTP stream output (stream_out_rtp)
+      --sout-rtp-dst=<string>    Destination
+          This is the output URL that will be used.
+      --sout-rtp-sdp=<string>    SDP
+          This allows you to specify how the SDP (Session Descriptor) for this
+          RTP session will be made available. You must use a url:
+          http://location to access the SDP via HTTP, rtsp://location for RTSP
+          access, and sap:// for the SDP to be announced via SAP.
+      --sout-rtp-mux=<string>    Muxer
+          This allows you to specify the muxer used for the streaming output.
+          Default is to use no muxer (standard RTP stream).
+      --sout-rtp-sap, --no-sout-rtp-sap 
+                                 SAP announcing
+                                 (default disabled)
+          Announce this session with SAP.
+      --sout-rtp-name=<string>   Session name
+          This is the name of the session that will be announced in the SDP
+          (Session Descriptor).
+      --sout-rtp-cat=<string>    Session category
+          This allows you to specify a category for the session, that will be
+          announced if you choose to use SAP.
+      --sout-rtp-description=<string> 
+                                 Session description
+          This allows you to give a short description with details about the
+          stream, that will be announced in the SDP (Session Descriptor).
+      --sout-rtp-url=<string>    Session URL
+          This allows you to give a URL with more details about the stream
+          (often the website of the streaming organization), that will be
+          announced in the SDP (Session Descriptor).
+      --sout-rtp-email=<string>  Session email
+          This allows you to give a contact mail address for the stream, that
+          will be announced in the SDP (Session Descriptor).
+      --sout-rtp-proto={dccp,sctp,tcp,udp,udplite} 
+                                 Transport protocol
+          This selects which transport protocol to use for RTP.
+      --sout-rtp-port=<integer>  Port
+          This allows you to specify the base port for the RTP streaming.
+      --sout-rtp-port-audio=<integer> 
+                                 Audio port
+          This allows you to specify the default audio port for the RTP
+          streaming.
+      --sout-rtp-port-video=<integer> 
+                                 Video port
+          This allows you to specify the default video port for the RTP
+          streaming.
+      --sout-rtp-ttl=<integer>   Hop limit (TTL)
+          This is the hop limit (also known as "Time-To-Live" or TTL) of the
+          multicast packets sent by the stream output (-1 = use operating
+          system built-in default).
+      --sout-rtp-rtcp-mux, --no-sout-rtp-rtcp-mux 
+                                 RTP/RTCP multiplexing
+                                 (default disabled)
+          This sends and receives RTCP packet multiplexed over the same port as
+          RTP packets.
+      --sout-rtp-caching=<integer> 
+                                 Caching value (ms)
+          Default caching value for outbound RTP streams. This value should be
+          set in milliseconds.
+      --sout-rtp-key=<string>    SRTP key (hexadecimal)
+          RTP packets will be integrity-protected and ciphered with this Secure
+          RTP master shared secret key. This must be a 32-character-long
+          hexadecimal string.
+      --sout-rtp-salt=<string>   SRTP salt (hexadecimal)
+          Secure RTP requires a (non-secret) master salt value. This must be a
+          28-character-long hexadecimal string.
+      --sout-rtp-mp4a-latm, --no-sout-rtp-mp4a-latm 
+                                 MP4A LATM
+                                 (default disabled)
+          This allows you to stream MPEG4 LATM audio streams (see RFC3016).
+      --rtsp-timeout=<integer>   RTSP session timeout (s)
+          RTSP sessions will be closed after not receiving any RTSP request for
+          this long. Setting it to a negative value or zero disables timeouts.
+          The default is 60 (one minute).
+      --sout-rtsp-user=<string>  Username
+          Username that will be requested to access the stream.
+      --sout-rtsp-pwd=<string>   Password
+          Password that will be requested to access the stream.
