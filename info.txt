@@ -25,6 +25,15 @@ NOPE
 
 https://jakut.is/2016/03/26/stdin-rtmpdump-streaming-to-upnp-dlna/
 
+============================ SSDP =================================================
+https://www.rapid7.com/blog/post/2020/12/22/upnp-with-a-holiday-cheer/
+
+M-SEARCH * HTTP/1.1
+HOST: 239.255.255.250:1900
+MAN: "ssdp:discover"
+MX: 5
+ST: urn:schemas-upnp-org:device:MediaServer:1
+
 ============================ UPnP =================================================
 
 b'HTTP/1.1 200 OK\r\nCACHE-CONTROL: max-age=1800\r\nDATE: Sun, 09 Jan 2022 14:36:48 GMT\r\nEXT:\r\nLOCATION: http://192.168.0.141:41954/description/fetch\r\nServer: Windows/6.1.7601/Service Pack 1, UPnP/1.0, TVersity Screen Server/1.2\r\nST: upnp:rootdevice\r\nUSN: uuid:6be2d41e-4acf-da4a-ae32-f58294f61f38::upnp:rootdevice\r\n\r\n'
